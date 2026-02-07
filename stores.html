@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>매장 소개 | 라빅커피</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. 빈티지 색감 & 기본 설정 --- */
+        :root {
+            --bg-color: #F4F1EA;
+            --text-color: #2C241E;
+            --accent-color: #8C6A4F;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Serif KR', serif; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* --- 2. 네비게이션 (이전과 통일) --- */
+        header {
+            position: fixed; top: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 50px; z-index: 1000; background: rgba(244, 241, 234, 0.95);
+            border-bottom: 1px solid #ddd;
+        }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 35px; font-size: 0.95rem; font-weight: 600; list-style: none; }
+        .nav-links a:hover { color: var(--accent-color); }
+        .active-page { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 5px; }
+
+        /* --- 3. 타이틀 --- */
+        .title-sec { padding: 180px 50px 60px; text-align: center; }
+        .title-sec h1 { font-family: 'Cinzel', serif; font-size: 3rem; margin-bottom: 15px; }
+        .title-sec p { font-size: 1.1rem; color: var(--accent-color); letter-spacing: 1px; }
+
+        /* --- 4. 매장 그리드 (핵심 레이아웃) --- */
+        .grid { 
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; 
+            max-width: 1400px; margin: 0 auto 100px; padding: 0 20px;
+        }
+
+        /* 개별 매장 카드 (애니메이션 초기 상태: 숨김 & 아래로 이동) */
+        .item { 
+            position: relative; height: 500px; overflow: hidden; 
+            background: #000; 
+            opacity: 0; transform: translateY(50px); /* 아래에서 대기 */
+            transition: all 1s ease-out; /* 1초 동안 부드럽게 등장 */
+        }
+        
+        /* 스크롤 돼서 보이면 붙는 클래스 (등장!) */
+        .item.visible { opacity: 1; transform: translateY(0); }
+        
+        /* ★ 양촌 본점: 맨 위, 2칸 차지, 높이 큼직하게 ★ */
+        .item.main-store { grid-column: span 2; height: 750px; }
+
+        /* 이미지 줌 효과 */
+        .img-box { position: absolute; width: 100%; height: 100%; transition: transform 1.2s ease; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+        .item:hover .img-box { transform: scale(1.05); }
+
+        /* 정보 오버레이 */
+        .overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            display: flex; flex-direction: column; justify-content: flex-end; 
+            padding: 50px; color: #fff; z-index: 5;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        }
+
+        .overlay h2 { font-size: 2.2rem; font-weight: 600; margin-bottom: 15px; transform: translateY(20px); transition: 0.6s; font-family: 'Cinzel', serif; }
+        .item.main-store .overlay h2 { font-size: 4rem; color: var(--accent-color); margin-bottom: 20px; } /* 본점 폰트 더 크게 */
+
+        .info-detail { opacity: 0; transform: translateY(20px); transition: 0.6s 0.1s; font-size: 1rem; line-height: 1.8; }
+        .item:hover h2, .item:hover .info-detail { opacity: 1; transform: translateY(0); }
+
+        .map-link { 
+            display: inline-block; margin-top: 25px; 
+            color: var(--white); border-bottom: 1px solid var(--accent-color); 
+            padding-bottom: 5px; font-size: 0.9rem; 
+            margin-right: 15px; 
+            
+            color: var(--white); border-bottom: 1px solid var(--accent-color); 
+            padding-bottom: 5px; font-size: 0.9rem; 
+        }
+        }
+        .map-link:hover { color: var(--accent-color); }
+
+        /* --- 5. 푸터 (묵직한 스타일) --- */
+        footer { background: #1a1a1a; color: #999; padding: 80px 50px; font-size: 0.9rem; }
+        .footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 40px; margin-bottom: 40px; }
+        .footer-logo h3 { color: #fff; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 15px; }
+        .f-links ul { display: flex; gap: 30px; list-style: none; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+        .contact-info a { color: var(--accent-color); font-weight: bold; margin-right: 20px; }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .item.main-store { grid-column: span 1; height: 500px; }
+            .footer-top { flex-direction: column; gap: 30px; }
+        }
+      /* --- 전 페이지 공통 모바일 반응형 --- */
+/* --- 모바일 세로 모드 완벽 최적화 --- */
+@media (max-width: 768px) {
+    /* 1. 바(헤더)와 이미지 사이 공백 완전 제거 */
+    header {
+        flex-direction: column !important;
+        padding: 15px 0 !important;
+        gap: 10px !important;
+        margin: 0 !important; /* 마진 제거 */
+        border-bottom: none !important;
+        position: relative !important; /* 이미지와 밀착을 위해 설정 */
+        z-index: 10 !important;
+    }
+
+    /* 2. 메인 이미지(Hero)를 바 바로 밑으로 밀착 */
+    .hero {
+        height: 55vh !important;
+        margin-top: 0 !important; /* ★ 바 밑에 공백 생기는 원인 제거 ★ */
+        padding-top: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background-position: center !important;
+    }
+
+    /* 3. 라빅 시그니처: 하얀 배경 더 넓고 럭셔리하게 */
+    .product-grid { display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 0 !important; }
+    .product-card { width: 100% !important; background: #fff !important; }
+    .p-img { height: 300px !important; width: 100% !important; object-fit: cover !important; }
+    .p-info { 
+        padding: 70px 25px !important; /* ★ 하얀 배경 영역을 더 광활하게 ★ */
+        background: #fff !important; 
+    }
+    .p-info h4 { font-size: 1.4rem !important; margin-bottom: 15px !important; }
+    .p-info p { font-size: 1rem !important; line-height: 1.6 !important; margin-bottom: 30px !important; }
+
+    /* 4. 양촌 메인 & 매장 글자 가시성 확보 */
+    .grid { display: flex !important; flex-direction: column !important; gap: 15px !important; padding: 0 15px !important; }
+    .item { height: 350px !important; position: relative !important; }
+    .overlay { 
+        display: flex !important; 
+        align-items: center !important; 
+        justify-content: center !important; 
+        background: rgba(0,0,0,0.4) !important; /* 글자 잘 보이게 배경 살짝 어둡게 */
+    }
+    .overlay h2 { 
+        font-size: 1.8rem !important; 
+        color: #fff !important; 
+        text-align: center !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* 5. (사업 파트너) 중앙 정렬 및 가독성 */
+    .marketing-cards { padding: 60px 0 !important; }
+    .biz-inner { 
+        width: 90% !important; 
+        margin: 0 auto !important; 
+        padding: 50px 20px !important;
+        background: #1a1a1a !important;
+    }
+    .biz-inner h3 { color: #fff !important; font-size: 1.5rem !important; }
+
+    /* 6. 텍스트 줄바꿈 방지 */
+    h1, h2, h3, h4, p, a { word-break: keep-all !important; }
+} 
+/* ↓↓↓ <style> 태그 맨 마지막에 이대로 붙여넣으세요 ↓↓↓ */
+
+@media (max-width: 768px) {
+    
+    /* --- [모바일 푸터 초슬림 다이어트] --- */
+    footer {
+        padding: 30px 20px !important; /* 전체 패딩 대폭 축소 */
+        text-align: center;
+    }
+
+    /* 상단 영역 (로고/정보 + 링크) */
+    .footer-top {
+        flex-direction: column !important;
+        gap: 20px !important;
+        margin-bottom: 20px !important;
+        padding-bottom: 20px !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    /* 로고 및 정보 텍스트 크기 축소 */
+    .footer-logo h3 {
+        font-size: 1.4rem !important;
+        margin-bottom: 10px !important;
+    }
+    .footer-logo p {
+        font-size: 0.85rem !important;
+        line-height: 1.4 !important;
+        color: #777 !important;
+    }
+
+    /* 링크 메뉴: 가로로 콤팩트하게 나열 */
+    .f-links ul {
+        flex-direction: row !important; /* 가로 정렬 */
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 15px 25px !important;
+        margin-top: 10px !important;
+    }
+    .f-links a {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+    }
+
+    /* 하단 영역 (인스타 + 카피라이트) */
+    .footer-bottom {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    .contact-info a {
+        font-size: 0.9rem !important;
+        margin: 0 !important;
+    }
+    .footer-bottom p {
+        font-size: 0.75rem !important;
+        color: #666 !important;
+    }
+
+} /* <--- ★★★ 이 닫는 괄호가 제일 중요합니다! ★★★ */</style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">RAVIC COFFEE</a>
+    <ul class="nav-links">
+        <li><a href="https://smartstore.naver.com/raviccoffee/category/ALL?cp=1" target="_blank">상품 구입</a></li>
+        <li><a href="about.html">회사 소개</a></li>
+        <li><a href="business.html">사업 분야</a></li>
+        <li><a href="stores.html" class="active-page">매장 소개</a></li>
+    </ul>
+</header>
+
+<section class="title-sec">
+    <h1>BRANCHES</h1>
+    <p>라빅커피가 제안하는 다섯 가지 공간의 가치</p>
+</section>
+
+<div class="grid">
+    <div class="item main-store">
+        <div class="img-box"><img src="Ravicmainone.png"></div>
+        <div class="overlay">
+            <h2>YANGCHON MAIN</h2>
+            <div class="info-detail">
+                <p><strong>라빅커피 양촌 본점</strong></p>
+                <p>경기 김포시 양촌읍 모산로 17 라빅 커피</p>
+                <p>09:00 - 21:00 / 로스팅 팩토리 & 쇼룸</p>
+                <a href="https://naver.me/GgWkvIyH" target="_blank" class="map-link">지도 보기 &gt;</a>
+                <a href="https://www.instagram.com/ravic_coffeeroasters/" target="_blank" class="map-link">인스타그램 &gt;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="img-box"><img src="RavicUn2.jpg"></div>
+        <div class="overlay">
+            <h2>UNYANG</h2>
+            <div class="info-detail">
+                <p><strong>라빅커피 운양점</strong></p>
+                <p>경기 김포시 김포한강11로 288-37 헤리움리버테라스 1층 라빅커피</p>
+                <p>09:00 - 22:00</p>
+                <a href="https://naver.me/GoDMR9dM" target="_blank" class="map-link">지도 보기 &gt;</a>
+                <a href="https://www.instagram.com/ravic_unyang/" target="_blank" class="map-link">인스타그램 &gt;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="img-box"><img src="RavicUnp.jpg"></div>
+        <div class="overlay">
+            <h2>YEONSINNAE</h2>
+            <div class="info-detail">
+                <p><strong>라빅커피 연신내점</strong></p>
+                <p>서울 은평구 연서로29길 20-12 1층</p>
+                <p>10:00 - 24:00 / 연중무휴</p>
+                <a href="https://naver.me/GplcsFQI" target="_blank" class="map-link">지도 보기 &gt;</a>
+                <a href="https://www.instagram.com/ravic_coffeeyeonsinnaejeom/" target="_blank" class="map-link">인스타그램 &gt;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="img-box"><img src="RavicRemember.jpg"></div>
+        <div class="overlay">
+            <h2>REMEMBER</h2>
+            <div class="info-detail">
+                <p><strong>라빅커피 리멤버</strong></p>
+                <p>경기 김포시 김포한강4로212번길 10 1층 101호</p>
+                <p>09:00 - 22:00 / 연중무휴</p>
+                <a href="https://naver.me/FdCkbLAT" target="_blank" class="map-link">지도 보기 &gt;</a>
+                <a href="https://www.instagram.com/raviccoffee_remember/" target="_blank" class="map-link">인스타그램 &gt;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="img-box"><img src="RavicGung1.jpg"></div>
+        <div class="overlay">
+            <h2>GUNGDUNG</h2>
+            <div class="info-detail">
+                <p><strong>라빅커피 궁동점</strong></p>
+                <p>대전 유성구 궁동로 40</p>
+                <p>12:00 - 22:00</p>
+                <a href="https://naver.me/FqWafWpa" target="_blank" class="map-link">지도 보기 &gt;</a>
+                <a href="https://www.instagram.com/raviccoffee/" target="_blank" class="map-link">인스타그램 &gt;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-top">
+        <div class="footer-logo">
+            <h3>RAVIC COFFEE</h3>
+            <p style="line-height:1.6; margin-top:10px;">본사: 경기도 김포시 양촌읍 모산로 17 라빅 커피<br>
+            대표: 한규남 | 사업자번호: [712-17-00381]<br>
+            TEL: [031-981-8990] | EMAIL: [hkn0191@naver.com]</p>
+        </div>
+        <div class="f-links">
+            <ul>
+                <li><a href="about.html">회사 소개</a></li>
+                <li><a href="business.html">사업 분야</a></li>
+                <li><a href="stores.html">매장 소개</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="contact-info">
+            <a href="https://www.instagram.com/ravic_coffeeroasters/" target="_blank">인스타그램 바로가기 &gt;</a>
+        </div>
+        <p>&copy; 2024 RAVIC COFFEE. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // ★ 핵심: 스크롤 감지해서 페이드인 시키는 스크립트 ★
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 화면에 보이면 'visible' 클래스 추가 (투명도 0->1, 위치 쓱 올라옴)
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { 
+        threshold: 0.15 // 매장이 화면에 15% 정도 보일 때 작동
+    });
+
+    document.querySelectorAll('.item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

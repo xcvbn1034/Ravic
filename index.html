@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+
+
+
+<html lang="ko">
+
+
+
+<head>
+
+
+
+    <meta charset="UTF-8">
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <title>RAVIC COFFEE | Official</title>
+
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+
+
+
+    <style>
+
+
+
+        /* --- 1. 색감 & 폰트 통일 (빈티지 톤) --- */
+
+
+
+        :root {
+
+
+
+            --bg-color: #F4F1EA;
+
+
+
+            --text-color: #2C241E;
+
+
+
+            --accent-color: #8C6A4F;
+
+
+
+            --white: #ffffff;
+
+
+
+        }
+
+
+
+
+
+
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+
+        body { font-family: 'Noto Serif KR', serif; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+
+
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+
+
+
+
+
+
+        /* --- 2. 네비게이션 (모든 페이지 공통) --- */
+
+
+
+        header {
+
+
+
+            position: fixed; top: 0; width: 100%;
+
+
+
+            display: flex; justify-content: space-between; align-items: center;
+
+
+
+            padding: 25px 50px; z-index: 1000; transition: 0.4s;
+
+
+
+            color: var(--white); /* 메인 화면은 배경이 어두우므로 초기 글씨는 흰색 */
+
+
+
+        }
+
+
+
+        /* 스크롤 내리면 배경 생기면서 글씨 검은색으로 */
+
+
+
+        header.scrolled {
+
+
+
+            background: rgba(244, 241, 234, 0.95);
+
+
+
+            padding: 15px 50px;
+
+
+
+            color: var(--text-color);
+
+
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+
+
+
+        }
+
+
+
+        
+
+
+
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; }
+
+
+
+        .nav-links { display: flex; gap: 35px; font-size: 0.95rem; font-weight: 600; list-style: none; }
+
+
+
+        .nav-links a:hover { color: var(--accent-color); }
+
+
+
+
+
+
+
+        /* --- 3. Hero Section (압도적 로스팅 비주얼) --- */
+
+
+
+        .hero {
+
+
+
+            height: 100vh; width: 100%; position: relative;
+
+
+
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+
+
+
+            background: #000; overflow: hidden;
+
+
+
+        }
+
+
+
+        .hero-bg {
+
+
+
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+
+
+
+            /* 로스팅 팩토리 느낌의 어둡고 진한 사진 */
+
+
+
+            background-image: url('RavicOut1.png');
+
+
+
+            background-size: cover; background-position: center;
+
+
+
+            opacity: 0.7; transform: scale(1); transition: 10s ease;
+
+
+
+        }
+
+
+
+        /* 로딩되면 배경이 천천히 움직임 */
+
+
+
+        .hero:hover .hero-bg { transform: scale(1.1); }
+
+
+
+        
+
+
+
+        .hero-content { text-align: center; color: var(--white); z-index: 1; opacity: 0; transform: translateY(30px); animation: fadeInUp 1.5s forwards 0.5s; }
+
+
+
+        .hero-content h2 { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 20px; color: var(--accent-color); }
+
+
+
+        .hero-content h1 { font-family: 'Cinzel', serif; font-size: 4.5rem; margin-bottom: 20px; line-height: 1.1; }
+
+
+
+        .hero-content p { font-size: 1.1rem; font-weight: 300; margin-bottom: 40px; letter-spacing: 1px; }
+
+
+
+        
+
+
+
+        .btn-outline {
+
+
+
+            display: inline-block; padding: 12px 35px; border: 1px solid var(--white);
+
+
+
+            color: var(--white); font-family: 'Cinzel', serif; letter-spacing: 2px;
+
+
+
+            transition: 0.3s;
+
+
+
+        }
+
+
+
+        .btn-outline:hover { background: var(--accent-color); border-color: var(--accent-color); }
+
+
+
+
+
+
+
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+
+
+
+
+
+
+        /* --- 4. Products (네이버 스토어 연동) --- */
+
+
+
+        .section { padding: 120px 50px; text-align: center; }
+
+
+
+        .sec-title { margin-bottom: 60px; }
+
+
+
+        .sec-title h3 { font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 10px; }
+
+
+
+        .sec-title p { color: #666; font-size: 1rem; }
+
+
+
+
+
+
+
+        .product-card {
+            /* 처음엔 숨김 (스크롤 애니메이션용) */
+            opacity: 0;
+            transform: translateY(40px);
+            
+            /* 등장할 때 & 마우스 올릴 때 부드러운 움직임 */
+            transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        transform 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* JS가 visible 붙이면 등장 */
+        .product-card.visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* ★ [복구 완료] 마우스 올리면 모든 카드가 둥실 뜸 ★ */
+        .product-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important; /* 그림자도 깊어짐 */
+        }
+
+
+        /* ========================================= */
+        /* [2] Best Sellers (하얀 액자 스타일) 전용 */
+        /* ========================================= */
+        .product-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding: 80px 20px;
+            background-color: var(--bg-color); /* 배경은 베이지 */
+        }
+
+        /* 상품 카드만 하얀색 액자 적용 */
+        .product-grid .product-card {
+            background-color: #ffffff !important;
+            padding: 38px !important;
+            width: 430px !important;
+            border-radius: 2px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* 상품 이미지 줌 효과 */
+        .p-img {
+            width: 100%;
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        /* 상품 카드에 마우스 올리면 이미지가 살짝 커짐 */
+        .product-grid .product-card:hover .p-img {
+            transform: scale(1.03);
+        }
+
+        /* BUY NOW 밑줄 디자인 */
+        .buy-link {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--accent-color); /* 밑줄 쫙! */
+            padding-bottom: 2px;
+            display: inline-block;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+
+        /* ========================================= */
+        /* [3] Why Ravic (사장님 카드) 전용 예외처리 */
+        /* ========================================= */
+        .card-container .product-card {
+            /* 하얀 액자 스타일 제거 (HTML 인라인 스타일 따름) */
+            background: initial; 
+            padding: 50px 40px; /* 원래 형님이 주신 패딩값 */
+        }
+/* --- [새로 추가] CEO 철학 섹션 (PC) --- */
+    .philosophy-section {
+        background-color: var(--bg-color); /* 라빅 베이지색으로 은은하게 */
+        padding: 100px 50px;
+        text-align: center;
+        border-bottom: 1px solid #e0e0e0; /* 밑에 Why Ravic이랑 구분선 */
+    }
+    .philo-inner h3 {
+        font-family: 'Cinzel', serif;
+        font-size: 2rem;
+        color: var(--text-color);
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+    .philo-inner p {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 40px;
+        line-height: 1.8;
+    }
+    .btn-philo {
+        display: inline-block;
+        padding: 12px 40px;
+        background: #2C241E; /* 진한 커피색 버튼 */
+        color: #fff;
+        font-family: 'Cinzel', serif;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        transition: 0.3s;
+    }
+    .btn-philo:hover {
+        background: var(--accent-color); /* 마우스 올리면 갈색으로 */
+    }
+
+
+
+
+
+
+
+
+
+        /* --- 5. Stores (오프라인 매장 유도) --- */
+
+
+
+        .store-teaser {
+
+
+
+            position: relative; padding: 150px 50px; color: #fff; text-align: center;
+
+
+
+            background-image: url('Ravicbig.jpg'); /* 매장 사진 */
+
+
+
+            background-attachment: fixed; background-size: cover; background-position: center;
+
+
+
+        }
+
+
+
+        .store-teaser::before { content:''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); }
+
+
+
+        .teaser-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: 1s; }
+
+
+
+        .teaser-content.visible { opacity: 1; transform: translateY(0); }
+
+
+
+        
+
+
+
+        .teaser-content h2 { font-family: 'Cinzel', serif; font-size: 3rem; margin-bottom: 20px; }
+
+
+
+        .teaser-content p { font-size: 1.2rem; margin-bottom: 40px; line-height: 1.6; }
+
+
+
+
+
+
+
+        /* --- 6. Business (B2B) --- */
+
+
+
+        .biz-teaser { padding: 100px 50px; background: #fff; text-align: center; }
+
+
+
+        .biz-inner { max-width: 900px; margin: 0 auto; border: 1px solid var(--accent-color); padding: 60px; opacity: 0; transform: translateY(30px); transition: 1s; }
+
+
+
+        .biz-inner.visible { opacity: 1; transform: translateY(0); }
+
+
+
+        .biz-inner h3 { font-size: 1.8rem; margin-bottom: 20px; }
+
+
+
+        .biz-inner p { color: #555; margin-bottom: 30px; }
+
+
+
+
+
+
+
+        /* --- Footer (통일) --- */
+
+
+
+        footer { background: #1a1a1a; color: #999; padding: 80px 50px; }
+
+
+
+        .footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 40px; margin-bottom: 40px; }
+
+
+
+        .footer-logo h3 { color: #fff; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 15px; }
+
+
+
+        .f-links ul { display: flex; gap: 30px; list-style: none; }
+
+
+
+        .footer-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+
+
+
+        .contact-info a { color: var(--accent-color); font-weight: bold; margin-right: 20px; }
+
+
+
+
+
+
+
+        @media (max-width: 768px) {
+
+
+
+            .product-grid { grid-template-columns: 1fr; }
+
+
+
+            .hero-content h1 { font-size: 3rem; }
+
+
+
+            .footer-top { flex-direction: column; gap: 30px; }
+
+
+
+        }
+
+
+
+ /* --- 모바일 세로 모드 완벽 최적화 --- */
+
+
+
+@media (max-width: 768px) {
+    .hero-content, 
+    /* --- [교정] Why Ravic 섹션 좌우 대칭 --- */
+/* --- [교정] Why Ravic 섹션 : 작게 + 정중앙 정렬 --- */
+    
+    /* 1. 제목 부분 축소 */
+    .marketing-cards > div:first-child {
+        transform: scale(0.7) !important; /* 다시 작게! */
+        transform-origin: center center !important;
+        margin-bottom: -20px !important; /* 축소로 생긴 공백 제거 */
+    }
+
+    /* 2. 카드 컨테이너 설정 */
+    .card-container {
+        transform: none !important; /* 전체 스케일은 꺼야 대칭이 맞음 */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; 
+        padding-top: 60px !important; 
+        
+        margin-top: 0 !important; /* 혹시 모를 꼬임 방지 */
+        gap: 15px !important;
+    }
+
+    /* 3. 개별 카드: 너비를 70%로 확 줄여서 작게 만듦 */
+    .card-container .product-card {
+        width: 70% !important;        /* ★ 85%에서 70%로 축소 (형님 취향) */
+        max-width: 320px !important;  /* 최대 크기도 제한 */
+        
+        /* ★ 좌우 마진 auto가 정중앙 대칭의 핵심 ★ */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        
+        padding: 30px 20px !important; /* 내부 여백도 작게 조정 */
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    /* 카드 안의 글씨 크기 미세 조정 (작아진 카드에 맞게) */
+    .card-container .product-card h4 { font-size: 1.2rem !important; }
+    .card-container .product-card p { font-size: 0.9rem !important; }    .sec-title,                         /* 데일리 로스팅 제목 */
+    .teaser-content,                    /* 스페이스 오브 라빅 (이미 적용됨) */
+    .biz-inner                          /* 비즈니스 파트너 박스 */ {
+        transform: scale(0.65) !important;
+        transform-origin: center center !important; /* 중앙 기준으로 축소 */
+        width: 100% !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+/* --- [새로 추가] CEO 철학 섹션 (모바일 최적화) --- */
+    .philosophy-section {
+        padding: 40px 20px !important;
+        background-color: #f4f1ea !important; /* 베이지색 유지 */
+        border-bottom: 1px solid #ddd !important;
+    }
+    
+    .philo-inner {
+        transform: scale(0.65) !important; /* 형님 픽 0.65배 */
+        transform-origin: center center !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        /* 위아래 공백 제거 (스케일 줄이면 생기는 공백) */
+        margin-top: -20px !important; 
+        margin-bottom: -20px !important;
+    }
+
+    .philo-inner h3 {
+        font-size: 1.8rem !important; /* 모바일에선 제목 살짝 작게 */
+        color: #333 !important;
+    }
+    
+    .philo-inner p {
+        font-size: 1rem !important;
+        color: #666 !important;
+        line-height: 1.5 !important;
+    }
+
+    /* 2. 축소되면서 생기는 여백 및 레이아웃 미세 조정 */
+    
+    /* [Why Ravic & 사장님께] 카드 컨테이너 */
+    .card-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        margin-top: -30px !important; /* 축소로 인한 빈 공간 당기기 */
+    }
+
+    /* [데일리 로스팅] 원두 그리드 */
+    .product-grid {
+        display: flex;
+        flex-direction: column; /* 모바일은 세로로 한 줄씩 */
+        align-items: center;    /* 가운데 정렬 */
+        gap: 20px;
+    }
+
+    /* [비즈니스 파트너] 박스 */
+    .biz-inner {
+        margin-top: -20px !important;
+        padding: 40px 20px !important;
+    }
+
+    /* 3. 섹션 간의 너무 넓은 간격 줄이기 */
+    .section, .marketing-cards, .biz-teaser, .store-teaser {
+        padding: 40px 10px !important; /* 전체적으로 위아래 패딩 축소 */
+    }
+    /* 1. 바(헤더)와 이미지 사이 공백 완전 제거 */
+    header {
+
+
+
+        position: relative !important;
+
+
+
+        display: flex !important;
+
+
+
+        flex-direction: column !important;
+
+
+
+        align-items: center !important;
+
+
+
+        background: #f4f1ea !important;
+
+
+
+        padding: 15px 0 !important;
+
+
+
+        gap: 12px !important;
+
+
+
+        z-index: 1000 !important;
+
+
+
+        border-bottom: 1px solid #e0e0e0 !important;
+
+
+
+        margin: 0 !important;
+
+
+
+    }
+
+
+
+    .logo { margin: 0 auto !important; color: #333 !important; }
+
+
+
+    .nav-links { width: 100%; justify-content: center !important; display: flex !important; gap: 15px !important; }
+
+
+
+    .nav-links a { color: #333 !important; }
+
+    /* 2. 메인 이미지(Hero)를 바 바로 밑으로 밀착 */
+    .hero {
+        height: 55vh !important;
+        margin-top: 0 !important; /* ★ 바 밑에 공백 생기는 원인 제거 ★ */
+        padding-top: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background-position: center !important;
+    }
+
+    /* 3. 라빅 시그니처: 하얀 배경 더 넓고 럭셔리하게 */
+    .product-grid { display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 0 !important; }
+    .product-card {
+        width: 90% !important; /* 모바일은 화면폭에 맞춰서 시원하게 */
+        max-width: 400px;
+    }
+    .p-info h4 { font-size: 1.4rem !important; margin-bottom: 15px !important; }
+    .p-info p { font-size: 1rem !important; line-height: 1.6 !important; margin-bottom: 30px !important; }
+
+           .marketing-cards { 
+        padding: 60px 20px !important; 
+        background-color: #ffffff !important; /* PC 버전과 동일하게 배경은 하얗게 */
+    }
+
+    /* 2. Why Ravic? 제목 & 밑에 15 YEARS... 텍스트 소생 */
+    .marketing-cards h2 { 
+        color: #2C241E !important; /* PC 버전 메인 텍스트 색상 */
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: block !important;
+    }
+    .marketing-cards p { 
+        color: var(--accent-color) !important; /* PC 버전 강조색 (#8C6A4F) */
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* 3. "실패 없는 원두 선택" 카드 (연한 베이지) */
+    .marketing-cards .product-card:first-child,
+    div[style*="background: var(--bg-color)"] {
+        background-color: #F4F1EA !important; /* PC 버전 var(--bg-color) */
+        border: 1px solid #eee !important;
+    }
+    .marketing-cards .product-card:first-child h4,
+    .marketing-cards .product-card:first-child p,
+    .marketing-cards .product-card:first-child a {
+        color: #2C241E !important; /* 글씨 검게 소생 */
+    }
+
+    /* 4. "커피가 고민인 사장님께" 카드 (진한 커피색) */
+    .marketing-cards .product-card:last-child,
+    div[style*="background: #2C241E"] {
+        background-color: #2C241E !important; /* 형님이 원하신 그 색깔 */
+        color: #ffffff !important;
+    }
+    .marketing-cards .product-card:last-child h4,
+    .marketing-cards .product-card:last-child p,
+    .marketing-cards .product-card:last-child a {
+        color: #ffffff !important; /* 여긴 배경이 어두우니까 글씨 무조건 흰색 */
+    }
+
+    /* 5. 카드 컨테이너 정렬 (모바일에서 세로로 예쁘게) */
+    .card-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    /* 6. 텍스트 줄바꿈 방지 */
+    h1, h2, h3, h4, p, a { word-break: keep-all !important; }
+}
+/* --- [비즈니스 파트너 섹션 중앙 정렬 복구] --- */
+    
+    .biz-teaser {
+        padding: 60px 20px !important;
+        background-color: #fff !important; /* 배경은 깔끔하게 하얀색 */
+        display: flex !important;
+        justify-content: center !important; /* ★ 부모 박스에서 중앙으로 밀기 ★ */
+    }
+
+    .biz-inner {
+        width: 90% !important; /* 폰 화면에서 좌우 여백 5%씩 남기기 */
+        max-width: none !important;
+        margin: 0 auto !important; /* ★ 스스로 중앙 정렬 ★ */
+        padding: 40px 20px !important;
+        border: 1px solid var(--accent-color) !important;
+        text-align: center !important; /* 글씨도 정중앙 */
+        opacity: 1 !important;
+        transform: none !important;
+        display: block !important;
+    }
+
+    .biz-inner h3 {
+        color: #2C241E !important; /* 컴퓨터랑 똑같은 진한 커피색 */
+        margin-bottom: 15px !important;
+    }
+
+    .biz-inner p {
+        color: #555 !important;
+        margin-bottom: 25px !important;
+    }
+  .store-teaser { padding: 50px 20px !important; }
+
+
+
+    .teaser-content { transform: scale(0.65) !important; width: 100% !important; margin: 0 auto !important; }
+
+
+
+    .overlay h2 { font-size: 1.6rem !important; color: #fff !important; }
+    .product-grid {
+        transform: none !important; /* 스케일 강제 해제 */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* 무조건 정중앙 */
+        width: 100% !important;
+        padding: 0 0 40px 0 !important; /* 하단 여백 살짝 */
+        gap: 40px !important;
+        margin: 0 !important; /* 마진 초기화 */
+    }
+
+    /* 2. 카드: 화면 폭의 85%로 설정 (좌우 7.5%씩 여백 자동 확보) */
+    .product-grid .product-card {
+        width: 85% !important; 
+        max-width: 380px !important; /* 너무 커지는 것 방지 */
+        
+        /* ★ 핵심: 마진 오토로 물리적 중앙 정렬 ★ */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        
+        background-color: #ffffff !important;
+        padding: 40px 20px !important;
+        
+        /* 스케일 해제 및 초기화 */
+        transform: none !important; 
+        opacity: 1 !important; 
+    }
+
+    /* 3. 이미지 높이 최적화 */
+    .product-grid .product-card .p-img {
+        height: 320px !important;
+        width: 100% !important;
+    }
+/* --- [PC/태블릿 가로 모드 강제 적용] --- */
+@media (min-width: 769px) {
+    .product-grid {
+        display: flex !important;         /* 가로 정렬의 핵심 */
+        flex-direction: row !important;   /* 가로 방향 명시 */
+        justify-content: center !important; /* 가운데 정렬 */
+        flex-wrap: wrap !important;       /* 넘치면 다음 줄로 */
+        gap: 40px !important;             /* 간격 유지 */
+        align-items: flex-start !important;
+        width: 100% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        transform: none !important;       /* PC에선 축소 절대 금지 */
+    }
+
+    /* 카드 크기 PC용으로 고정 */
+    .product-grid .product-card {
+        width: 430px !important;
+        margin: 0 !important; /* 모바일용 오토 마진 해제 */
+     
+     
+    }
+}
+      /* ↓↓↓ <style> 태그 맨 마지막에 이대로 붙여넣으세요 ↓↓↓ */
+
+@media (max-width: 768px) {
+    
+    /* --- [모바일 푸터 초슬림 다이어트] --- */
+    footer {
+        padding: 30px 20px !important; /* 전체 패딩 대폭 축소 */
+        text-align: center;
+    }
+
+    /* 상단 영역 (로고/정보 + 링크) */
+    .footer-top {
+        flex-direction: column !important;
+        gap: 20px !important;
+        margin-bottom: 20px !important;
+        padding-bottom: 20px !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    /* 로고 및 정보 텍스트 크기 축소 */
+    .footer-logo h3 {
+        font-size: 1.4rem !important;
+        margin-bottom: 10px !important;
+    }
+    .footer-logo p {
+        font-size: 0.85rem !important;
+        line-height: 1.4 !important;
+        color: #777 !important;
+    }
+
+    /* 링크 메뉴: 가로로 콤팩트하게 나열 */
+    .f-links ul {
+        flex-direction: row !important; /* 가로 정렬 */
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 15px 25px !important;
+        margin-top: 10px !important;
+    }
+    .f-links a {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+    }
+
+    /* 하단 영역 (인스타 + 카피라이트) */
+    .footer-bottom {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    .contact-info a {
+        font-size: 0.9rem !important;
+        margin: 0 !important;
+    }
+    .footer-bottom p {
+        font-size: 0.75rem !important;
+        color: #666 !important;
+    }
+
+} /* <--- ★★★ 이 닫는 괄호가 제일 중요합니다! ★★★ */
+}</style>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+
+
+    <header id="header">
+
+
+
+        <div class="logo">RAVIC COFFEE</div>
+
+
+
+        <ul class="nav-links">
+
+
+
+            <li><a href="https://smartstore.naver.com/raviccoffee/category/ALL?cp=1" target="_blank">상품 구입</a></li>
+
+
+
+            <li><a href="about.html">회사 소개</a></li>
+
+
+
+            <li><a href="business.html">사업 분야</a></li>
+
+
+
+            <li><a href="stores.html">매장 소개</a></li>
+
+
+
+        </ul>
+
+
+
+    </header>
+
+
+
+
+
+
+
+    <section class="hero">
+
+
+
+        <div class="hero-bg"></div>
+
+
+
+        <div class="hero-content">
+
+
+
+            <h2>SINCE 2009</h2>
+
+
+
+            <h1>COFFEE CAN<br>BE BETTER.</h1>
+
+
+
+            <p>15년의 시간, 하나의 고집</p>
+
+
+
+            <a href="about.html" class="btn-outline">OUR STORY</a>
+
+
+
+        </div>
+
+
+
+    </section>
+
+
+
+</section>
+
+
+
+</section>
+
+    <section class="philosophy-section">
+        <div class="philo-inner">
+            <h3>OUR PHILOSOPHY</h3>
+            <p>15년의 시간, 변하지 않는 원칙.<br>라빅커피 대표가 전하는 진심을 만나보세요.</p>
+            <a href="philosophy.html" class="btn-philo" target="_blank">COMPANY PHILOSOPHY &gt;</a>
+        </div>
+    </section>
+    
+
+
+
+    <section class="marketing-cards" style="padding: 100px 50px; background-color: #fff;">
+
+
+
+        <div style="text-align: center; margin-bottom: 50px;">
+
+
+
+            <h2 style="font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 10px;">Why Ravic?</h2>
+
+
+
+            <p style="color: var(--accent-color); letter-spacing: 2px; font-weight: 600;">15 YEARS OF ROASTING HERITAGE</p>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="card-container" style="display: flex; gap: 30px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
+
+
+
+            
+
+
+
+            <div class="product-card visible" style="flex: 1; min-width: 300px; border: 1px solid #eee; padding: 50px 40px; text-align: center; background: var(--bg-color);">
+
+
+
+                <span style="font-size: 0.8rem; color: #999; font-family: 'Cinzel', serif; letter-spacing: 2px;">FOR HOME CAFE</span>
+
+
+
+                <h4 style="margin: 20px 0; font-size: 1.5rem;">실패 없는 원두 선택</h4>
+
+
+
+                <p style="font-size: 1rem; color: #666; margin-bottom: 30px; line-height: 1.6;">오늘 볶아 내일 도착하는 신선함.<br>수많은 리뷰가 증명하는 인생 원두.</p>
+
+
+
+                <a href="https://smartstore.naver.com/raviccoffee/category/ALL?cp=1" target="_blank" style="color: var(--text-color); font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 5px;">지금 쇼핑하기 →</a>
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="product-card visible" style="flex: 1; min-width: 300px; border: 1px solid #eee; padding: 50px 40px; text-align: center; background: #2C241E; color: #fff;">
+
+
+
+                <span style="font-size: 0.8rem; color: var(--accent-color); font-family: 'Cinzel', serif; letter-spacing: 2px;">FOR BUSINESS</span>
+
+
+
+                <h4 style="margin: 20px 0; font-size: 1.5rem; color: #fff;">커피가 고민인 사장님께</h4>
+
+
+
+                <p style="font-size: 1rem; color: #ccc; margin-bottom: 30px; line-height: 1.6;">라빅커피는 원두만 팔지 않습니다.<br>당신의 카페가 잘될 수 있는 맛을 제안합니다.</p>
+
+
+
+                <a href="business.html" style="color: var(--accent-color); font-weight: bold; border-bottom: 1px solid var(--accent-color); padding-bottom: 5px;">B2B 상담 신청 →</a>
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+    </section>
+
+
+
+    <section class="section">
+
+
+
+
+
+
+
+    <section class="section">
+
+
+
+        <div class="sec-title">
+
+
+
+            <h3>DAILY ROASTING</h3>
+
+
+
+            <p>매일 볶는 신선함, 라빅의 베스트 원두를 만나보세요.</p>
+
+
+
+        </div>
+
+
+
+        <div class="product-grid">
+
+
+
+            <div class="product-card" onclick="window.open('https://smartstore.naver.com/raviccoffee/products/9038125863')">
+
+
+
+                <div class="p-img" style="background-image: url('Or.png');"></div>
+
+
+
+                <h4>RAVIC COFFEE BEANS</h4>
+
+
+
+                <p>"15년의 고집, 매일 아침 로스팅한 신선한 원두"</p>
+
+
+
+                <span class="buy-link">BUY NOW &gt;</span>
+
+
+
+            </div>
+
+
+
+            <div class="product-card" onclick="window.open('https://smartstore.naver.com/raviccoffee/products/4822238569')">
+
+
+
+                <div class="p-img" style="background-image: url('RavicDrip.jpg');"></div>
+
+
+
+                <h4>RAVIC COFFEE DRIP BAG</h4>
+
+
+
+                <p>"언제 어디서나 즐기는 라빅커피의 핸드드립"</p>
+
+
+
+                <span class="buy-link">BUY NOW &gt;</span>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </section>
+
+
+
+
+
+
+
+    <section class="store-teaser">
+
+
+
+        <div class="teaser-content">
+
+
+
+            <h2>BRANCHES OF RAVIC COFFEE</h2>
+
+
+
+            <p>양촌 본점, 운양, 은평, 리멤버, 궁둥.<br>라빅의 커피 향이 머무는 5개의 공간을 소개합니다.</p>
+
+
+
+            <a href="stores.html" class="btn-outline">FIND A STORE</a>
+
+
+
+        </div>
+
+
+
+    </section>
+
+
+
+
+
+
+
+    <section class="biz-teaser">
+
+
+
+        <div class="biz-inner">
+
+
+
+            <h3>BUSINESS PARTNER</h3>
+
+
+
+            <p>원두 납품부터 카페 창업 컨설팅까지. 성공적인 커피 비즈니스를 위한 최고의 파트너가 되어드립니다.</p>
+
+
+
+            <a href="business.html" style="color:var(--accent-color); font-weight:bold; border-bottom:1px solid var(--accent-color);">사업분야 자세히 보기 &gt;</a>
+
+
+
+        </div>
+
+
+
+    </section>
+
+
+
+
+
+
+
+    <footer>
+    <div class="footer-top">
+        <div class="footer-logo">
+            <h3>RAVIC COFFEE</h3>
+            <p style="line-height:1.6; margin-top:10px;">본사: 경기도 김포시 양촌읍 모산로 17 라빅 커피<br>
+            대표: 한규남 | 사업자번호: [712-17-00381]<br>
+            TEL: [031-981-8990] | EMAIL: [hkn0191@naver.com]</p>
+        </div>
+        <div class="f-links">
+            <ul>
+                <li><a href="about.html">회사 소개</a></li>
+                <li><a href="business.html">사업 분야</a></li>
+                <li><a href="stores.html">매장 소개</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="contact-info">
+            <a href="https://www.instagram.com/ravic_coffeeroasters/" target="_blank">인스타그램 바로가기 &gt;</a>
+        </div>
+        <p>&copy; 2024 RAVIC COFFEE. All rights reserved.</p>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+    <script>
+
+
+
+        // 1. 헤더 색상 변경 (스크롤 시)
+
+
+
+        window.addEventListener('scroll', () => {
+
+
+
+            const header = document.getElementById('header');
+
+
+
+            if (window.scrollY > 50) {
+
+
+
+                header.classList.add('scrolled');
+
+
+
+            } else {
+
+
+
+                header.classList.remove('scrolled');
+
+
+
+            }
+
+
+
+        });
+
+
+
+
+
+
+
+        // 2. 스크롤 애니메이션 (Fade In)
+
+
+
+        const observer = new IntersectionObserver((entries) => {
+
+
+
+            entries.forEach(entry => {
+
+
+
+                if (entry.isIntersecting) {
+
+
+
+                    entry.target.classList.add('visible');
+
+
+
+                }
+
+
+
+            });
+
+
+
+        }, { threshold: 0.1 });
+
+
+
+
+
+
+
+        // 애니메이션 적용할 요소들
+
+
+
+        document.querySelectorAll('.hero-content, .product-card, .teaser-content, .biz-inner').forEach(el => observer.observe(el));
+
+
+
+    </script>
+
+
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사업 분야 | 라빅커피</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F4F1EA;
+            --text-color: #2C241E;
+            --accent-color: #8C6A4F;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Serif KR', serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- 네비게이션 --- */
+        header {
+            position: fixed; top: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 50px; z-index: 1000; background: rgba(244, 241, 234, 0.95);
+            border-bottom: 1px solid #ddd;
+        }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 35px; font-size: 0.95rem; font-weight: 600; list-style: none; }
+        .nav-links a:hover { color: var(--accent-color); }
+        .active-page { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 5px; }
+
+        /* --- 타이틀 --- */
+        .page-title { padding: 180px 50px 80px; text-align: center; }
+        .page-title h1 { font-family: 'Cinzel', serif; font-size: 3rem; margin-bottom: 15px; }
+        .page-title p { font-size: 1.1rem; color: var(--accent-color); font-weight: 600; }
+
+        /* --- 사업 분야 섹션 (사진 사이즈 최적화) --- */
+        .biz-container { max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
+        
+        .biz-item { 
+            display: flex; 
+            align-items: center; /* 사진과 글 수직 중앙 정렬 */
+            background: var(--white); 
+            margin-bottom: 80px; 
+            padding: 50px; /* ★핵심: 하얀 여백을 넉넉히 줌 (사진이 꽉 차지 않게) */
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.05);
+            opacity: 0; transform: translateY(50px); transition: 1s ease-out;
+            border-radius: 4px; 
+            gap: 50px; /* 사진과 글 사이 간격 넓힘 */
+        }
+        .biz-item.visible { opacity: 1; transform: translateY(0); }
+        .biz-item.reverse { flex-direction: row-reverse; }
+
+        /* [사진 스타일] 적당한 사이즈로 조절 */
+        .biz-real-img { 
+            width: 45%;         /* 박스의 절반보다 조금 작게 */
+            height: 400px;      /* 높이 고정 */
+            object-fit: cover;  /* 비율 유지하며 꽉 채움 */
+            border-radius: 4px; /* 사진 모서리 둥글게 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* 사진에 살짝 그림자 */
+        }
+
+        /* [텍스트 스타일] */
+        .biz-text { 
+            width: 55%; 
+            /* padding 제거 (상위 gap으로 대체) */
+        }
+        
+        .biz-text h2 { font-size: 2rem; margin-bottom: 25px; color: var(--accent-color); }
+        .biz-text ul { list-style: none; }
+        .biz-text li { margin-bottom: 15px; font-size: 1.1rem; border-left: 3px solid var(--accent-color); padding-left: 15px; }
+        .biz-text p { color: #666; font-size: 0.95rem; padding-left: 18px; margin-bottom: 20px; word-break: keep-all; }
+
+        /* --- Footer (기본 PC 스타일) --- */
+        footer { background: #1a1a1a; color: #999; padding: 80px 50px; margin-top: 100px; }
+        .footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 40px; margin-bottom: 40px; }
+        .footer-logo h3 { color: #fff; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 15px; }
+        .f-links ul { display: flex; gap: 30px; list-style: none; }
+        .f-links a { color: #fff; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+        .contact-info a { color: var(--accent-color); font-weight: bold; margin-right: 20px; }
+
+
+        /* --- [모바일 반응형 최적화] --- */
+        @media (max-width: 900px) {
+            /* 비즈니스 카드 세로 정렬 */
+            .biz-item, .biz-item.reverse { 
+                flex-direction: column !important; 
+                padding: 30px !important; /* 모바일에서도 여백 유지 */
+                gap: 30px !important;
+                height: auto !important;
+            }
+            .biz-real-img { 
+                width: 100% !important; /* 모바일에선 가로 꽉 차게 */
+                height: 300px !important; 
+            }
+            .biz-text { 
+                width: 100% !important; 
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* 1. 헤더 최적화 */
+            header {
+                flex-direction: column; padding: 15px 0; gap: 10px;
+                position: relative; border-bottom: none;
+            }
+            
+            /* 2. 타이틀 여백 축소 */
+            .page-title { padding: 100px 20px 40px; }
+            .page-title h1 { font-size: 2.2rem; }
+
+            /* 3. [모바일 푸터 초슬림 다이어트] */
+            footer { padding: 30px 20px !important; text-align: center; }
+            .footer-top { flex-direction: column !important; gap: 20px !important; margin-bottom: 20px !important; padding-bottom: 20px !important; border-bottom: 1px solid #333 !important; }
+            .footer-logo h3 { font-size: 1.4rem !important; margin-bottom: 10px !important; }
+            .footer-logo p { font-size: 0.85rem !important; line-height: 1.4 !important; color: #777 !important; }
+            .f-links ul { flex-direction: row !important; justify-content: center !important; flex-wrap: wrap !important; gap: 15px 25px !important; margin-top: 10px !important; }
+            .f-links a { font-size: 0.9rem !important; font-weight: 600 !important; }
+            .footer-bottom { flex-direction: column !important; align-items: center !important; gap: 15px !important; }
+            .contact-info a { font-size: 0.9rem !important; margin: 0 !important; }
+            .footer-bottom p { font-size: 0.75rem !important; color: #666 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">RAVIC COFFEE</a>
+    <ul class="nav-links">
+        <li><a href="https://smartstore.naver.com/raviccoffee/category/ALL?cp=1" target="_blank">상품 구입</a></li>
+        <li><a href="about.html">회사 소개</a></li>
+        <li><a href="business.html" class="active-page">사업 분야</a></li>
+        <li><a href="stores.html">매장 소개</a></li>
+    </ul>
+</header>
+
+<section class="page-title">
+    <h1>BUSINESS</h1>
+    <p>라빅커피가 제공하는 전문 서비스</p>
+</section>
+
+<div class="biz-container">
+    
+    <div class="biz-item">
+        <img src="Ravicme.jpg" alt="창업 지원" class="biz-real-img">
+        <div class="biz-text">
+            <h2>창업 지원 서비스</h2>
+            <ul>
+                <li>인테리어 및 공간 브랜딩</li>
+                <p>라빅커피만의 노하우가 담긴 효율적이고 감각적인 공간 제안</p>
+                <li>상권 분석 및 기기 설치</li>
+                <p>정확한 데이터 기반 상권 분석부터 머신, 포스, CCTV 설치까지</p>
+                <li>메뉴 컨설팅</li>
+                <p>각 매장의 특색에 맞는 시그니처 메뉴 개발 지원</p>
+            </ul>
+        </div>
+    </div>
+
+    <div class="biz-item reverse">
+        <img src="Raviconedu.jpg" alt="원두 제조" class="biz-real-img">
+        <div class="biz-text">
+            <h2>원두 제조 및 유통</h2>
+            <ul>
+                <li>원두 납품 및 정기 배송</li>
+                <p>전국 카페 및 기업체 대상 신선한 로스팅 원두 공급</p>
+                <li>시그니처 원두 개발 (OEM)</li>
+                <p>업체만의 아이덴티티를 담은 단독 블렌딩 개발</p>
+                <li>드립백 및 간편식 생산</li>
+                <p>언제 어디서나 즐길 수 있는 고퀄리티 드립백 대량 생산</p>
+            </ul>
+        </div>
+    </div>
+
+    <div class="biz-item">
+        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=1000" alt="바리스타 교육" class="biz-real-img">
+        <div class="biz-text">
+            <h2>전문가 바리스타 교육</h2>
+            <ul>
+                <li>실전 창업 전문가 과정</li>
+                <p>창업 예정자에 한하여 진행되는 실무 위주의 1:1 밀착 교육</p>
+                <li>매장 운영 및 CS 교육</li>
+                <p>커피 맛을 넘어 지속 가능한 매장 관리를 위한 노하우 전수</p>
+                <li style="border-left-color: #d9534f;">※ 비전문가 과정 미운영</li>
+                <p>현재 일반인 대상 취미 교육은 진행하지 않습니다.</p>
+            </ul>
+        </div>
+    </div>
+
+    <div class="biz-item reverse">
+        <img src="Jung.jpg" alt="공간 대관 이용 사진" class="biz-real-img">
+        <div class="biz-text">
+            <h2>공간 대관 서비스</h2>
+            <ul>
+                <li>촬영 및 세미나 대관</li>
+                <p>다양한 아티스트와 브랜드가 선택한<br>라빅만의 빈티지 감성 공간 (촬영, 인터뷰 등)</p>
+                
+                <li>아티스트 작품 전시</li>
+                <p>매장 내 비어있는 공간 어디든 전시가 가능합니다.<br>아티스트의 감성을 담은 갤러리로 활용해 보세요.</p>
+                
+                <li>대관 문의</li>
+                <p>인원 및 일정, 비용 협의 (인스타그램 DM 또는 매장 유선 문의)</p>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-top">
+        <div class="footer-logo">
+            <h3>RAVIC COFFEE</h3>
+            <p>본사: 경기도 김포시 양촌읍 모산로 17 라빅 커피<br>
+            대표: 한규남 | 사업자번호: [712-17-00381]<br>
+            TEL: [031-981-8990] | EMAIL: [hkn0191@naver.com]</p>
+        </div>
+        <div class="f-links">
+            <ul>
+                <li><a href="about.html">회사 소개</a></li>
+                <li><a href="business.html">사업 분야</a></li>
+                <li><a href="stores.html">매장 소개</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="contact-info">
+            <a href="https://www.instagram.com/ravic_coffeeroasters/">인스타그램 바로가기 &gt;</a>
+        </div>
+        <p>&copy; 2024 RAVIC COFFEE. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.biz-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

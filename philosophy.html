@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAVIC COFFEE | PHILOSOPHY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- [기본 설정] --- */
+        :root {
+            --bg-color: #F4F1EA;
+            --text-color: #2C241E;
+            --accent-color: #8C6A4F;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Serif KR', serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* --- [애니메이션: 개 간지 버전 복구] --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes lineGrow {
+            to { width: 100%; }
+        }
+
+        /* --- [헤더 복구] --- */
+        header {
+            position: fixed; top: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 50px; z-index: 1000;
+            background: rgba(244, 241, 234, 0.95);
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 35px; list-style: none; font-size: 0.95rem; font-weight: 600; }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        /* --- [CEO 섹션 스타일] --- */
+        .ceo-section {
+            max-width: 1100px;
+            margin: 150px auto 100px;
+            display: flex;
+            gap: 60px;
+            padding: 0 20px;
+            /* 전체 섹션 서서히 등장 */
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+
+        /* 왼쪽 사진 */
+        .ceo-img-box {
+            flex: 1;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out forwards;
+            animation-delay: 0.4s;
+        }
+        .ceo-img {
+            width: 100%;
+            border-radius: 2px;
+            box-shadow: 15px 15px 0px rgba(44, 36, 30, 0.05);
+        }
+
+        /* 오른쪽 텍스트 */
+        .ceo-text-box {
+            flex: 1.2;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out forwards;
+            animation-delay: 0.7s;
+        }
+
+        .top-title { font-family: 'Cinzel', serif; font-size: 2.8rem; color: var(--accent-color); letter-spacing: 4px; margin-bottom: 30px; }
+        
+        .main-copy {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            line-height: 1.4;
+            color: #1a1a1a;
+            word-break: keep-all;
+            position: relative;
+            display: inline-block;
+        }
+        /* 간지 밑줄 효과 복구 */
+        .main-copy::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent-color);
+            animation: lineGrow 1.5s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        .body-text {
+            font-size: 1.05rem;
+            color: #444;
+            margin-bottom: 20px;
+    
+    /* ★ [수정 핵심] ★ */
+            text-align: left;           /* 양쪽 정렬 해제! 이제 띄어쓰기 너비가 일정해집니다. */
+            word-break: keep-all;       /* 단어가 중간에 잘리지 않게 보호 */
+            letter-spacing: -0.5px;     /* 글자 사이(자간)를 살짝 좁혀서 쫀득하게 고정 */
+            word-spacing: 0px;          /* 단어 사이(띄어쓰기) 간격도 표준으로 고정 */
+    
+            line-height: 1.7;
+}
+
+        .signature {
+            margin-top: 50px;
+            text-align: right;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- [푸터 복구] --- */
+        footer { background: #1a1a1a; color: #999; padding: 80px 50px; margin-top: 100px; }
+        .footer-top { display: flex; justify-content: flex-start; gap: 100px; border-bottom: 1px solid #333; padding-bottom: 40px; margin-bottom: 40px; text-align: left; }
+        .footer-logo h3 { color: #fff; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 15px; }
+        .f-links ul { display: flex; gap: 30px; list-style: none; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+        .contact-info a { color: var(--accent-color); font-weight: bold; margin-right: 20px; }
+
+        /* --- [모바일: 형님 전용 0.65배 비율 복구] --- */
+        @media (max-width: 768px) {
+            header { flex-direction: column !important; padding: 15px 0 !important; gap: 10px !important; }
+            .nav-links { width: 100%; justify-content: center !important; }
+            
+            .ceo-section { 
+                flex-direction: column !important; 
+                margin-top: 100px !important;
+                /* ★★★ 형님이 원하시던 그 비율 ★★★ */
+                transform: scale(0.65) !important;
+                transform-origin: top center !important;
+                margin-bottom: -400px !important; /* 축소된 만큼 여백 당기기 */
+                width: 100% !important;
+            }
+            .top-title { text-align: center !important; }
+            .main-copy { text-align: center !important; display: block !important; }
+            .main-copy::after { left: 50% !important; transform: translateX(-50%) !important; }
+            .body-text { 
+                font-size: 1.4rem !important; /* 본문 글자 크기 뻥튀기 */
+                line-height: 1.8 !important; /* 줄 간격도 시원하게 */
+                margin-bottom: 25px !important; 
+            }
+            .ceo-img-box, .ceo-text-box { width: 100% !important; }
+            
+            /* 푸터 모바일 */
+            footer { text-align: center !important; padding: 40px 20px !important; }
+            .footer-top { flex-direction: column !important; align-items: center !important; gap: 30px !important; }
+            .f-links ul { justify-content: center !important; }
+            .footer-bottom { flex-direction: column !important; align-items: center !important; gap: 20px !important; }
+        }
+/* ↓↓↓ <style> 태그 맨 마지막에 이대로 붙여넣으세요 ↓↓↓ */
+
+@media (max-width: 768px) {
+    
+    /* --- [모바일 푸터 초슬림 다이어트] --- */
+    footer {
+        padding: 30px 20px !important; /* 전체 패딩 대폭 축소 */
+        text-align: center;
+    }
+
+    /* 상단 영역 (로고/정보 + 링크) */
+    .footer-top {
+        flex-direction: column !important;
+        gap: 20px !important;
+        margin-bottom: 20px !important;
+        padding-bottom: 20px !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    /* 로고 및 정보 텍스트 크기 축소 */
+    .footer-logo h3 {
+        font-size: 1.4rem !important;
+        margin-bottom: 10px !important;
+    }
+    .footer-logo p {
+        font-size: 0.85rem !important;
+        line-height: 1.4 !important;
+        color: #777 !important;
+    }
+
+    /* 링크 메뉴: 가로로 콤팩트하게 나열 */
+    .f-links ul {
+        flex-direction: row !important; /* 가로 정렬 */
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 15px 25px !important;
+        margin-top: 10px !important;
+    }
+    .f-links a {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+    }
+
+    /* 하단 영역 (인스타 + 카피라이트) */
+    .footer-bottom {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    .contact-info a {
+        font-size: 0.9rem !important;
+        margin: 0 !important;
+    }
+    .footer-bottom p {
+        font-size: 0.75rem !important;
+        color: #666 !important;
+    }
+
+} /* <--- ★★★ 이 닫는 괄호가 제일 중요합니다! ★★★ */
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="index.html">RAVIC COFFEE</a></div>
+        <ul class="nav-links">
+            <li><a href="https://smartstore.naver.com/raviccoffee/category/ALL?cp=1" target="_blank">상품 구입</a></li>
+            <li><a href="about.html">회사 소개</a></li>
+            <li><a href="business.html">사업 분야</a></li>
+            <li><a href="stores.html">매장 소개</a></li>
+        </ul>
+    </header>
+
+    <section class="ceo-section">
+        <div class="ceo-img-box">
+            <img src="Han2.png" alt="대표 한규남" class="ceo-img">
+            <div style="margin-top: 20px; text-align: right;">
+                <p style="font-weight: 600; font-size: 1.1rem;">한 규 남</p>
+                <p style="font-size: 0.85rem; color: #888; font-family: 'Cinzel', serif;">CEO / Head Roaster</p>
+            </div>
+        </div>
+
+        <div class="ceo-text-box">
+            <h2 class="top-title">PHILOSOPHY</h2>
+            <div class="main-copy">
+                "Coffee can be better.<br>
+                커피는 더 맛있어질 수 있다."
+            </div>
+
+            <p class="body-text">
+                라빅커피는 ‘Coffee can be better. 커피는 더 맛있어질 수 있다’라는 <br>하나의 모토 아래 15여 년 동안 커피를 만들어온 커피전문점이며, <br>커피 전문회사입니다.
+            </p>
+            <p class="body-text">
+                2009년 작은 로스터기 하나로 커피를 만들기 시작한 이후 지금까지, <br>기본에 충실하자는 다짐으로 커피를 로스팅해왔고 어느새 전국에 <br>유통하기 시작했습니다. 아울러 항상 검증하며 긴장을 놓지 않기 위해 <br>오프라인 매장 운영 또한 쉬지 않았습니다.
+            </p>
+            <p class="body-text">
+                생두 한 알 한 알을 직접 고르고 매일 아침 날씨와 온도에 맞춰 <br>로스팅 프로파일을 조절하는 그 미련할 정도의 꾸준함. 그것이 15년 동안 <br>라빅커피가 사랑받을 수 있었던 이유라고 믿습니다.
+            </p>
+            <p class="body-text">
+                라빅커피는 유행을 따르는 베리에이션 커피나 핫한 디저트에 욕심내지 않습니다. 커피 본연의 맛에 집중하며 이를 업그레이드할 뿐입니다.
+            </p>
+           <p class="body-text">
+                라빅커피는 우리가 가진 노하우와 소프트웨어로 가능한 한 오랫동안 <br><b>커피의 명문, 노포</b>가 되고자 끊임없이 정진하겠습니다.
+            </p>
+            <p class="body-text">
+                라빅커피는 지금까지 퀄리티는 지키며 그 안에서 최대한 저렴한 시장가를 도출하고, 맛과 시스템을 개선하고 발전시키기를 쉬지 않았습니다. <br>변하지 않을 예정입니다.
+            </p>
+            <p class="body-text">
+                그리고 저희의 커피가 여러분의 식탁 위에서, 사무실 책상 위에서 작은 행복이 되기를 바랍니다. 모든 것에 감사드립니다.
+            </p>
+
+            <div class="signature">
+                <p style="font-size: 0.9rem; color: #777;">라빅커피 대표</p>
+                <h3 style="font-size: 1.6rem; margin-top: 5px;">Han Kyu Nam</h3>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo">
+                <h3>RAVIC COFFEE</h3>
+                <p style="margin-top:10px; line-height:1.6;">본사: 경기도 김포시 양촌읍 양곡1로 56-1<br>
+                대표: 한규남 | 사업자번호: [712-17-00381]<br>
+                TEL: [031-981-8990] | EMAIL: [hkn0191@naver.com]</p>
+            </div>
+            <div class="f-links">
+                <ul>
+                    <li><a href="philosophy.html">회사 철학</a></li>
+                    <li><a href="business.html">사업 분야</a></li>
+                    <li><a href="stores.html">매장 소개</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="contact-info">
+                <a href="https://smartstore.naver.com/raviccoffee/" target="_blank">스마트스토어 바로가기 &gt;</a>
+            </div>
+            <p>&copy; 2024 RAVIC COFFEE. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
