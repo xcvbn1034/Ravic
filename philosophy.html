@@ -208,7 +208,24 @@
         color: #666 !important;
     }
 
-} /* <--- ★★★ 이 닫는 괄호가 제일 중요합니다! ★★★ */
+}
+/* --- 사장님 폰(모바일) 글자 깨짐 방지 코드 시작 --- */
+    @media (max-width: 768px) {
+    /* 메뉴 글자가 자리가 좁아도 절대 아래로 떨어지지 않게 고정 */
+        nav a, .menu-item, li a, .nav-link { 
+        white-space: nowrap !important; 
+        display: inline-block !important;
+        letter-spacing: -0.5px; /* 글자 간격을 아주 미세하게 좁혀서 자리를 확보함 */
+    }
+
+    /* 메뉴 바 전체에 가로 스크롤을 허용 (글자가 넘치면 잘리는 게 아니라 옆으로 밀어서 보게 함) */
+    .menu-container, nav ul {
+        overflow-x: auto;
+        display: flex;
+        -webkit-overflow-scrolling: touch; /* 아이폰에서 부드럽게 밀리게 함 */
+    }
+}
+/* --- 코드 끝 --- */ /* <--- ★★★ 이 닫는 괄호가 제일 중요합니다! ★★★ */
     </style>
 </head>
 <body>
