@@ -17,7 +17,7 @@
         body { font-family: 'Noto Serif KR', serif; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
 
-        /* --- 2. 네비게이션 (이전과 통일) --- */
+        /* --- 2. 네비게이션 --- */
         header {
             position: fixed; top: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
@@ -40,18 +40,17 @@
             max-width: 1400px; margin: 0 auto 100px; padding: 0 20px;
         }
 
-        /* 개별 매장 카드 (애니메이션 초기 상태: 숨김 & 아래로 이동) */
+        /* 개별 매장 카드 */
         .item { 
             position: relative; height: 500px; overflow: hidden; 
             background: #000; 
-            opacity: 0; transform: translateY(50px); /* 아래에서 대기 */
-            transition: all 1s ease-out; /* 1초 동안 부드럽게 등장 */
+            opacity: 0; transform: translateY(50px);
+            transition: all 1s ease-out;
         }
         
-        /* 스크롤 돼서 보이면 붙는 클래스 (등장!) */
         .item.visible { opacity: 1; transform: translateY(0); }
         
-        /* ★ 양촌 본점: 맨 위, 2칸 차지, 높이 큼직하게 ★ */
+        /* 양촌 본점: 맨 위, 2칸 차지 */
         .item.main-store { grid-column: span 2; height: 750px; }
 
         /* 이미지 줌 효과 */
@@ -68,7 +67,8 @@
         }
 
         .overlay h2 { font-size: 2.2rem; font-weight: 600; margin-bottom: 15px; transform: translateY(20px); transition: 0.6s; font-family: 'Cinzel', serif; }
-        .item.main-store .overlay h2 { font-size: 4rem; color: var(--accent-color); margin-bottom: 20px; } /* 본점 폰트 더 크게 */
+        .overlay h2.korean-name { font-family: 'Noto Serif KR', serif; font-weight: 600; }
+        .item.main-store .overlay h2 { font-size: 4rem; color: var(--accent-color); margin-bottom: 20px; }
 
         .info-detail { opacity: 0; transform: translateY(20px); transition: 0.6s 0.1s; font-size: 1rem; line-height: 1.8; }
         .item:hover h2, .item:hover .info-detail { opacity: 1; transform: translateY(0); }
@@ -78,14 +78,48 @@
             color: var(--white); border-bottom: 1px solid var(--accent-color); 
             padding-bottom: 5px; font-size: 0.9rem; 
             margin-right: 15px; 
-            
-            color: var(--white); border-bottom: 1px solid var(--accent-color); 
-            padding-bottom: 5px; font-size: 0.9rem; 
-        }
         }
         .map-link:hover { color: var(--accent-color); }
 
-        /* --- 5. 푸터 (묵직한 스타일) --- */
+        /* 가맹점 문의 카드 전용 디자인 (같은 500px 높이) */
+        .item.franchise-item {
+            background: #2C241E;
+        }
+        .item.franchise-item .overlay {
+            background: none;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+        .item.franchise-item h2 {
+            transform: translateY(0);
+            opacity: 1;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        .item.franchise-item .info-detail {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .btn-franchise-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--accent-color);
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        .btn-franchise-link:hover {
+            background: #fff;
+            color: var(--text-color);
+        }
+
+        /* --- 5. 푸터 --- */
         footer { background: #1a1a1a; color: #999; padding: 80px 50px; font-size: 0.9rem; }
         .footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 40px; margin-bottom: 40px; }
         .footer-logo h3 { color: #fff; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 15px; }
@@ -98,148 +132,132 @@
             .item.main-store { grid-column: span 1; height: 500px; }
             .footer-top { flex-direction: column; gap: 30px; }
         }
-      /* --- 전 페이지 공통 모바일 반응형 --- */
-/* --- 모바일 세로 모드 완벽 최적화 --- */
-@media (max-width: 768px) {
-    /* 1. 바(헤더)와 이미지 사이 공백 완전 제거 */
-    header {
-        flex-direction: column !important;
-        padding: 15px 0 !important;
-        gap: 10px !important;
-        margin: 0 !important; /* 마진 제거 */
-        border-bottom: none !important;
-        position: relative !important; /* 이미지와 밀착을 위해 설정 */
-        z-index: 10 !important;
-    }
 
-    /* 2. 메인 이미지(Hero)를 바 바로 밑으로 밀착 */
-    .hero {
-        height: 55vh !important;
-        margin-top: 0 !important; /* ★ 바 밑에 공백 생기는 원인 제거 ★ */
-        padding-top: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background-position: center !important;
-    }
+        /* --- 모바일 반응형 --- */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column !important;
+                padding: 15px 0 !important;
+                gap: 10px !important;
+                margin: 0 !important;
+                border-bottom: none !important;
+                position: relative !important;
+                z-index: 10 !important;
+            }
 
-    /* 3. 라빅 시그니처: 하얀 배경 더 넓고 럭셔리하게 */
-    .product-grid { display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 0 !important; }
-    .product-card { width: 100% !important; background: #fff !important; }
-    .p-img { height: 300px !important; width: 100% !important; object-fit: cover !important; }
-    .p-info { 
-        padding: 70px 25px !important; /* ★ 하얀 배경 영역을 더 광활하게 ★ */
-        background: #fff !important; 
-    }
-    .p-info h4 { font-size: 1.4rem !important; margin-bottom: 15px !important; }
-    .p-info p { font-size: 1rem !important; line-height: 1.6 !important; margin-bottom: 30px !important; }
+            .hero {
+                height: 55vh !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background-position: center !important;
+            }
 
-    /* 4. 양촌 메인 & 매장 글자 가시성 확보 */
-    .grid { display: flex !important; flex-direction: column !important; gap: 15px !important; padding: 0 15px !important; }
-    .item { height: 350px !important; position: relative !important; }
-    .overlay { 
-        display: flex !important; 
-        align-items: center !important; 
-        justify-content: center !important; 
-        background: rgba(0,0,0,0.4) !important; /* 글자 잘 보이게 배경 살짝 어둡게 */
-    }
-    .overlay h2 { 
-        font-size: 1.8rem !important; 
-        color: #fff !important; 
-        text-align: center !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
+            .product-grid { display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 0 !important; }
+            .product-card { width: 100% !important; background: #fff !important; }
+            .p-img { height: 300px !important; width: 100% !important; object-fit: cover !important; }
+            .p-info { 
+                padding: 70px 25px !important;
+                background: #fff !important; 
+            }
+            .p-info h4 { font-size: 1.4rem !important; margin-bottom: 15px !important; }
+            .p-info p { font-size: 1rem !important; line-height: 1.6 !important; margin-bottom: 30px !important; }
 
-    /* 5. (사업 파트너) 중앙 정렬 및 가독성 */
-    .marketing-cards { padding: 60px 0 !important; }
-    .biz-inner { 
-        width: 90% !important; 
-        margin: 0 auto !important; 
-        padding: 50px 20px !important;
-        background: #1a1a1a !important;
-    }
-    .biz-inner h3 { color: #fff !important; font-size: 1.5rem !important; }
+            .grid { display: flex !important; flex-direction: column !important; gap: 15px !important; padding: 0 15px !important; }
+            .item { height: 350px !important; position: relative !important; }
+            .overlay { 
+                display: flex !important; 
+                align-items: center !important; 
+                justify-content: center !important; 
+                background: rgba(0,0,0,0.4) !important;
+            }
+            .overlay h2 { 
+                font-size: 1.8rem !important; 
+                color: #fff !important; 
+                text-align: center !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
 
-    /* 6. 텍스트 줄바꿈 방지 */
-    h1, h2, h3, h4, p, a { word-break: keep-all !important; }
-} 
-/* ↓↓↓ <style> 태그 맨 마지막에 이대로 붙여넣으세요 ↓↓↓ */
+            .marketing-cards { padding: 60px 0 !important; }
+            .biz-inner { 
+                width: 90% !important; 
+                margin: 0 auto !important; 
+                padding: 50px 20px !important;
+                background: #1a1a1a !important;
+            }
+            .biz-inner h3 { color: #fff !important; font-size: 1.5rem !important; }
 
-@media (max-width: 768px) {
-    
-    /* --- [모바일 푸터 초슬림 다이어트] --- */
-    footer {
-        padding: 30px 20px !important; /* 전체 패딩 대폭 축소 */
-        text-align: center;
-    }
+            h1, h2, h3, h4, p, a { word-break: keep-all !important; }
+        } 
 
-    /* 상단 영역 (로고/정보 + 링크) */
-    .footer-top {
-        flex-direction: column !important;
-        gap: 20px !important;
-        margin-bottom: 20px !important;
-        padding-bottom: 20px !important;
-        border-bottom: 1px solid #333 !important;
-    }
+        @media (max-width: 768px) {
+            footer {
+                padding: 30px 20px !important;
+                text-align: center;
+            }
 
-    /* 로고 및 정보 텍스트 크기 축소 */
-    .footer-logo h3 {
-        font-size: 1.4rem !important;
-        margin-bottom: 10px !important;
-    }
-    .footer-logo p {
-        font-size: 0.85rem !important;
-        line-height: 1.4 !important;
-        color: #777 !important;
-    }
+            .footer-top {
+                flex-direction: column !important;
+                gap: 20px !important;
+                margin-bottom: 20px !important;
+                padding-bottom: 20px !important;
+                border-bottom: 1px solid #333 !important;
+            }
 
-    /* 링크 메뉴: 가로로 콤팩트하게 나열 */
-    .f-links ul {
-        flex-direction: row !important; /* 가로 정렬 */
-        justify-content: center !important;
-        flex-wrap: wrap !important;
-        gap: 15px 25px !important;
-        margin-top: 10px !important;
-    }
-    .f-links a {
-        font-size: 0.9rem !important;
-        font-weight: 600 !important;
-    }
+            .footer-logo h3 {
+                font-size: 1.4rem !important;
+                margin-bottom: 10px !important;
+            }
+            .footer-logo p {
+                font-size: 0.85rem !important;
+                line-height: 1.4 !important;
+                color: #777 !important;
+            }
 
-    /* 하단 영역 (인스타 + 카피라이트) */
-    .footer-bottom {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 15px !important;
-    }
-    .contact-info a {
-        font-size: 0.9rem !important;
-        margin: 0 !important;
-    }
-    .footer-bottom p {
-        font-size: 0.75rem !important;
-        color: #666 !important;
-    }
+            .f-links ul {
+                flex-direction: row !important;
+                justify-content: center !important;
+                flex-wrap: wrap !important;
+                gap: 15px 25px !important;
+                margin-top: 10px !important;
+            }
+            .f-links a {
+                font-size: 0.9rem !important;
+                font-weight: 600 !important;
+            }
 
-} /* <--- ★★★ 이 닫는 괄호가 제일 중요합니다! ★★★ */
-/* --- 사장님 폰(모바일) 글자 깨짐 방지 코드 시작 --- */
-    @media (max-width: 768px) {
-    /* 메뉴 글자가 자리가 좁아도 절대 아래로 떨어지지 않게 고정 */
-        nav a, .menu-item, li a, .nav-link { 
-        white-space: nowrap !important; 
-        display: inline-block !important;
-        letter-spacing: -0.5px; /* 글자 간격을 아주 미세하게 좁혀서 자리를 확보함 */
-    }
+            .footer-bottom {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 15px !important;
+            }
+            .contact-info a {
+                font-size: 0.9rem !important;
+                margin: 0 !important;
+            }
+            .footer-bottom p {
+                font-size: 0.75rem !important;
+                color: #666 !important;
+            }
+        }
 
-    /* 메뉴 바 전체에 가로 스크롤을 허용 (글자가 넘치면 잘리는 게 아니라 옆으로 밀어서 보게 함) */
-    .menu-container, nav ul {
-        overflow-x: auto;
-        display: flex;
-        -webkit-overflow-scrolling: touch; /* 아이폰에서 부드럽게 밀리게 함 */
-    }
-}
-/* --- 코드 끝 --- */</style>
+        @media (max-width: 768px) {
+            nav a, .menu-item, li a, .nav-link { 
+                white-space: nowrap !important; 
+                display: inline-block !important;
+                letter-spacing: -0.5px;
+            }
+
+            .menu-container, nav ul {
+                overflow-x: auto;
+                display: flex;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -255,10 +273,11 @@
 
 <section class="title-sec">
     <h1>BRANCHES</h1>
-    <p>라빅커피가 제안하는 다섯 가지 공간의 가치</p>
+    <p>라빅커피가 제안하는 여섯 가지 공간의 가치</p>
 </section>
 
 <div class="grid">
+    <!-- 1. 본점 -->
     <div class="item main-store">
         <div class="img-box"><img src="Ravicmainone.png"></div>
         <div class="overlay">
@@ -273,6 +292,7 @@
         </div>
     </div>
 
+    <!-- 2. 운양점 -->
     <div class="item">
         <div class="img-box"><img src="RavicUn2.jpg"></div>
         <div class="overlay">
@@ -287,6 +307,7 @@
         </div>
     </div>
 
+    <!-- 3. 연신내점 -->
     <div class="item">
         <div class="img-box"><img src="RavicUnp.jpg"></div>
         <div class="overlay">
@@ -301,6 +322,7 @@
         </div>
     </div>
 
+    <!-- 4. 리멤버점 -->
     <div class="item">
         <div class="img-box"><img src="RavicRemember.jpg"></div>
         <div class="overlay">
@@ -315,6 +337,7 @@
         </div>
     </div>
 
+    <!-- 5. 궁동점 -->
     <div class="item">
         <div class="img-box"><img src="RavicGung1.jpg"></div>
         <div class="overlay">
@@ -328,6 +351,33 @@
             </div>
         </div>
     </div>
+
+    <!-- 6. 서울 브루잉 -->
+    <div class="item">
+        <div class="img-box"><img src="IMG_3555.jpg"></div>
+        <div class="overlay">
+            <h2 class="korean-name">카페, 서울브루잉</h2>
+            <div class="info-detail">
+                <p><strong>서울브루잉</strong></p>
+                <p>경기 김포시 김포한강11로140길 39 1층</p>
+                <p>10:00 - 20:00</p>
+                <a href="https://naver.me/GtYANech" target="_blank" class="map-link">지도 보기 &gt;</a>
+                <a href="https://www.instagram.com/seoulbrewing?utm_source=ig_web_button_share_sheet&mdxt=ZDNlZDc0MzIxNw==" target="_blank" class="map-link">인스타그램 &gt;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. 가맹점 문의 안내 (서울 브루잉 오른쪽 배치) -->
+    <div class="item franchise-item">
+        <div class="overlay">
+            <h2>FRANCHISE</h2>
+            <div class="info-detail">
+                <p><strong>라빅커피 가맹점 모집</strong></p>
+                <p>라빅커피의 변하지 않는 커피 철학과 성공 노하우를 공유할 가맹점주님을 모집합니다.</p>
+                <a href="business.html" class="btn-franchise-link">가맹 문의하기 &gt;</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>
@@ -335,8 +385,8 @@
         <div class="footer-logo">
             <h3>RAVIC COFFEE</h3>
             <p style="line-height:1.6; margin-top:10px;">본사: 경기도 김포시 양촌읍 모산로 17 라빅 커피<br>
-            대표: 한규남 | 사업자번호: [712-17-00381]<br>
-            TEL: [031-981-8990] | EMAIL: [hkn0191@naver.com]</p>
+            대표: 한규남 | 사업자번호: 712-17-00381<br>
+            TEL: 031-981-8990 | EMAIL: hkn0191@naver.com</p>
         </div>
         <div class="f-links">
             <ul>
@@ -355,16 +405,14 @@
 </footer>
 
 <script>
-    // ★ 핵심: 스크롤 감지해서 페이드인 시키는 스크립트 ★
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // 화면에 보이면 'visible' 클래스 추가 (투명도 0->1, 위치 쓱 올라옴)
                 entry.target.classList.add('visible');
             }
         });
     }, { 
-        threshold: 0.15 // 매장이 화면에 15% 정도 보일 때 작동
+        threshold: 0.15
     });
 
     document.querySelectorAll('.item').forEach(el => observer.observe(el));
